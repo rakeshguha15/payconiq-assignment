@@ -1,0 +1,14 @@
+# Terraform files
+.terraform
+terraform.tfstate
+terraform.tfvars
+*.tfstate*
+
+# Vscode files
+.vscode
+
+# Chart dependencies
+**/charts/*.tgz
+
+.history
+
