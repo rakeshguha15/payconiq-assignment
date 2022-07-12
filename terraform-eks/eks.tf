@@ -9,7 +9,7 @@ module "eks" {
 
   cluster_endpoint_private_access = true
   cluster_endpoint_public_access  = true
-  enable_irsa = true
+  enable_irsa                     = true
 
   cluster_addons = {
     coredns = {
@@ -30,23 +30,23 @@ module "eks" {
     resources        = ["secrets"]
   }]
 
-  vpc_id     = "${module.vpc.vpc_id}"
-  subnet_ids = concat(module.vpc.public_subnets,module.vpc.private_subnets)
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = concat(module.vpc.public_subnets, module.vpc.private_subnets)
 
-    # EKS Managed Node Group(s)
+  # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
     disk_size      = 20
     instance_types = ["t3.medium"]
-    name = "eks-worker-nodes"
-    subnet_ids= module.vpc.private_subnets
+    name           = "eks-worker-nodes"
+    subnet_ids     = module.vpc.private_subnets
   }
 
-  manage_aws_auth_configmap  = true
+  manage_aws_auth_configmap = true
   #This part adds current AWS User to system Masters Group
   aws_auth_users = [
     {
       userarn  = data.aws_caller_identity.current.arn
-      username = split("/","${data.aws_caller_identity.current.arn}")[1]
+      username = split("/", "${data.aws_caller_identity.current.arn}")[1]
       groups   = ["system:masters"]
     }
   ]

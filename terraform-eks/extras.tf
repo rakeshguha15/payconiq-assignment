@@ -9,18 +9,18 @@ locals {
 resource "null_resource" "clusterConfig" {
   depends_on = [module.eks]
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --region ${var.aws_region} --name ${var.eks_cluster_name}"
+    command     = "aws eks update-kubeconfig --region ${var.aws_region} --name ${var.eks_cluster_name}"
     interpreter = local.is_windows ? ["PowerShell", "-Command"] : []
-  }  
+  }
 }
 
 #Installing Metrics Server on EKS
 resource "null_resource" "metricsServer" {
   depends_on = [module.eks]
   provisioner "local-exec" {
-    command = "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
+    command     = "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
     interpreter = local.is_windows ? ["PowerShell", "-Command"] : []
-  }  
+  }
 }
 
 
