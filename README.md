@@ -56,7 +56,8 @@ To re-configure defaults please create new tfvars files. For documentation purpo
 **NOTE: Please watch out for URL Output for Network Load Balancers for both Node-Red and Ghost-Blog App.
 A local Provisioner is configured to get those URLs from the kubectl client and dump it on stdout**
 
-###Known Limitations
+###Known Limitations:
+
 Since I could not find any provided URL and I decided to do this over the weekend, I could not request for an SSL Certificate, I would update Service Ports in the helm chart if I had a domain name, and would have created an Ingress resource with the host as the custom domain name. That way we could terminate SSL at the ingress level, and we would be working with a single Application Load Balancer instead of multiple Network Load Balancers. 
 
 Also that would enable the Ghost-blog to have an env variable URL, without which a lot of functionalities don't work there. 
@@ -72,12 +73,14 @@ In this cluster I tried to mimic the following Architecture - This is an example
 ...
 ---
 ###Cleanup:
+
 All the AWS resources created by this module can be easily destroyed by running `terraform destroy` including the helm charts as thse are also using terraform helm providers.
 
 **Exception:** I have manually created an S3 bucket to store terraform state file `terraform-store-payconiq-sample` , this needs to be deleted as this is managed manually.
 
 ---
 ###Task-order:
+
 The development was done in the following order -
 1. Terraform module for EKS Cluster
 2. Kubernetes Manifest for ghost-blog
@@ -89,10 +92,12 @@ The development was done in the following order -
 
 ---
 ###Credentials
+
 The credentials I used for this should be sent over email, if not please feel free to reach out to me for the credentials
 
 ---
 ###Pipelines
+
 **Jenkinsfile**
 - This pipeline creates or destroys the entire Stack
 - This pipeline checks if `<aws_region>.tfvars` file is present, if not it fails the pipeline with an ERROR
